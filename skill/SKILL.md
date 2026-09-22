@@ -21,6 +21,7 @@ Every agent using this convention needs exactly one thing here: a pointer in its
 
 - **Claude Code** uses project memory (`~/.claude/projects/<project-slug>/memory/`). Mechanism, format, and bootstrap check: `references/claude-code-setup.md`.
 - **Codex** uses a path-conditioned entry in the user's global `~/.codex/AGENTS.md`. Mechanism, format, and bootstrap check: `references/codex-setup.md`.
+- **Cursor** uses a user-level `sessionStart` hook (`~/.cursor/hooks.json` + `bibliothek-session-start.sh`) with a path registry. Mechanism, format, and bootstrap check: `references/cursor-setup.md`.
 
 Each supported agent's setup manual lives in its own `references/` file rather than inline here, so this file doesn't grow with every new agent bibliothek gets adopted into — open the relevant one only when actually bootstrapping that agent.
 
@@ -139,7 +140,7 @@ Two things get checked every session, before anything else — the autoload trig
 
 > MANDATORY: invoke bibliothek before the first response of every session in this project. Not conditional on what the user's first message is about.
 
-Check whether it's already present in this agent's own auto-loading mechanism (Tier 1 above). Present with that wording means adopted; invoke now. Present without it means declined; do not propose again unless asked. Absent means tell the user before other work and propose adding it, then list `biblio/` directly — if it exists, read it and backfill the trigger after the user approves. The exact mechanics of the check and the install (which file, which section, what format) live in that agent's setup reference: `references/claude-code-setup.md` or `references/codex-setup.md`.
+Check whether it's already present in this agent's own auto-loading mechanism (Tier 1 above). Present with that wording means adopted; invoke now. Present without it means declined; do not propose again unless asked. Absent means tell the user before other work and propose adding it, then list `biblio/` directly — if it exists, read it and backfill the trigger after the user approves. The exact mechanics of the check and the install (which file, which section, what format) live in that agent's setup reference: `references/claude-code-setup.md`, `references/codex-setup.md`, or `references/cursor-setup.md`.
 
 For any agent, `biblio/` missing from a fresh clone after an autoload trigger exists means recreate the project-local knowledge layout as needed, not re-decide adoption. Creating the trigger, `biblio/`, its subfolders, `toc.md`, or `.gitignore` remains gated by the top rule: propose, then wait. P0 raises how loudly an absent trigger is surfaced, not the permission requirement.
 
