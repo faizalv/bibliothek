@@ -25,6 +25,7 @@ A directory in the project root, gitignored by default, with four subfolders:
 
 - **Claude Code** — the pointer lives in Claude Code's own project memory (`~/.claude/projects/<project-slug>/memory/`). Setup detail: `skill/references/claude-code-setup.md`.
 - **Codex** — the pointer lives in a path-conditioned entry in the user's global `~/.codex/AGENTS.md`. Setup detail: `skill/references/codex-setup.md`.
+- **Cursor** — the pointer lives in a user-level `sessionStart` hook (`~/.cursor/hooks.json`) gated by a path registry. Setup detail: `skill/references/cursor-setup.md`.
 
 Each agent's setup manual lives in its own file under `skill/references/` rather than inline in `SKILL.md`, so the core skill file does not grow with every agent that adopts bibliothek. Adding support for another agent means adding one `skill/references/<agent>-setup.md` file and one pointer line in `SKILL.md`, not editing the shared content.
 
@@ -37,7 +38,8 @@ bibliothek/
     ├── SKILL.md
     └── references/
         ├── claude-code-setup.md
-        └── codex-setup.md
+        ├── codex-setup.md
+        └── cursor-setup.md
 ```
 
 `skill/` is the actual skill package: what an agent reads when the skill is invoked. Everything above it (this README) is for humans browsing the repository.
@@ -57,5 +59,13 @@ Codex:
 ```
 ln -s /path/to/bibliothek/skill ~/.codex/skills/bibliothek
 ```
+
+Cursor:
+
+```
+ln -s /path/to/bibliothek/skill ~/.cursor/skills/bibliothek
+```
+
+Then install the Cursor `sessionStart` hook as described in `skill/references/cursor-setup.md`.
 
 Then, in a project you want to adopt bibliothek in, invoke the skill. It checks whether the project has already adopted the convention and, if not, proposes setting it up: writing the pointer in the agent's own mechanism, and scaffolding `biblio/` in the project.
