@@ -68,7 +68,7 @@ way in; don't transplant a narrative.
 
 Unlike a book, a law isn't read on demand — it's small and binding for the whole project. `biblio/laws/summary.md` is the read target: one line per law (the rule itself, pulled from each file's own opening line) plus a pointer to the full file, kept current the same way `biblio/books/toc.md` is. Every agent reads it in full before doing anything, unless it already arrived this session -- opening an individual law's file only when its one-liner isn't enough (its Why or How-to-apply).
 
-Where a project has lgrass with its `SessionStart` hook wired in, that hook delivers `summary.md`'s content automatically, before the model's first token -- reading it is already done, not a step to repeat. Absent that, the auto-loading pointer from Tier 1 is what guarantees `summary.md` still gets read -- see Bootstrapping below.
+A complete `# Laws summary` block in session context before the first response proves delivery: it is already read, so do not reopen the file. A configured hook or pointer is not proof. If the block is absent, incomplete, or its source is uncertain, open the file in full.
 
 This is also why `type: feedback` memory entries are pointer-only from the start (see Tier 1): Claude Code's own memory is a fixed, mixed-purpose surface the harness can truncate once full, so it can't be the durable home for a growing, open-ended list of standing rules -- only `biblio/laws/` can be. Once a project's `SessionStart` hook is *confirmed* actually delivering `summary.md` (verified firing, not just installed), `biblio/laws/` is the load-bearing copy for every standing rule it holds. A `feedback`-type memory file that survives from before that confirmation -- migrated into `biblio/laws/<slug>.md` but never removed from memory -- is drift, not a second, more-detailed copy: delete the memory file and its `MEMORY.md` line once its content exists in `biblio/laws/`.
 
@@ -137,7 +137,4 @@ Check whether it's already present in this agent's own auto-loading mechanism (T
 
 For any agent, `biblio/` missing from a fresh clone after an autoload trigger exists means recreate the project-local knowledge layout as needed, not re-decide adoption. Creating the trigger, `biblio/`, its subfolders, `toc.md`, or `.gitignore` remains gated by the top rule: propose, then wait. P0 raises how loudly an absent trigger is surfaced, not the permission requirement.
 
-**The laws summary.** This is conditional on one thing only, and it isn't the user's first message: whether the project has lgrass with its `SessionStart` hook wired in. Where that hook is active, it delivers `biblio/laws/summary.md` automatically, before the model produces a token -- already done, not a step to repeat. Where it isn't, invoking this skill (the trigger above, whichever agent's version of it) is what guarantees `summary.md` gets read: open it in full, right now, if it hasn't already arrived this session. One delivery mechanism per project, never both -- but laws reach every session either way, regardless of which agent or tool this is.
-
-If `biblio/laws/` exists, read it in full before anything else, regardless.
-
+**The laws summary.** Apply the delivery rule above. If `biblio/laws/summary.md` exists and has not already arrived, open it in full before other work.
