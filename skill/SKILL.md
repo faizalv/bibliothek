@@ -114,14 +114,14 @@ The durable, growing detail — design decisions, domain facts, lore, whatever t
 - **Tags** are exactly one word each, comma-separated, no spaces or hyphens joining concepts into one tag — a compound idea becomes multiple tags instead of one compound tag (an "IPD approval" chapter is tagged `ipd,approval`, not `ipd-approval`). Use the terms this project already uses for the thing (a module name, a faction name, a short domain term) instead of a generic category word. The entire point of a tag is to cut a directory listing or a `grep` down fast, without opening a file — optimize for that, not for taxonomic completeness.
 - "Last updated" is never encoded anywhere — the filesystem's own mtime already answers that for free, and baking a live-changing field into a name is what forces every edit to also be a rename.
 
-`biblio/books/toc.md` indexes every book, one line each: the book's full folder name (as defined above) followed by ` - ` and a one-line description, dense enough to know whether to open it.
+`biblio/books/toc.md` lists every book, one line each: the book's full folder name (as defined above) and no description: the folder name carries the title and tags, and `ls` of the folder shows its chapter names, which say what each covers. The one allowed addition is a single-sentence warning after the tags, for a book that is obsolete or misleading, naming what to read instead.
 
 ```
-Topic group:
-title_snake_case[date_entry][tag,tag,tag] - one-line description.
+title_snake_case[date_entry][tag,tag,tag]
+title_snake_case[date_entry][tag,tag,tag] warning: obsolete, read other_book instead.
 ```
 
-Rewritten in place as a book's content changes, never appended to — no dated or changelog-shaped lines (`2026-09-10: fixed X`), no session history; that belongs in a task's `activities.md`. The description names the book's scope, not its chapter list -- it isn't appended to every time a new chapter lands. A book can grow to hundreds of chapters without the toc line growing with it, since each chapter's own `title[tags].md` name already says what it covers once the folder is open. Bracketed tags are the union of tags actually carried by the book's chapters, read off them rather than chosen independently — a mismatch means the toc has drifted and needs regenerating, not re-titling. Use a "Topic group:" header only when it clusters two or more books under a theme their names/tags don't already convey; a single-book group is pure duplication.
+Rewritten in place as a book's content changes, never appended to — no dated lines, no session history; that belongs in a task's `activities.md`. Bracketed tags are the union of tags actually carried by the book's chapters, read off them rather than chosen independently — a mismatch means the toc has drifted and needs regenerating, not re-titling.
 
 `toc.md` is small enough that any session can read it regardless of the current task. Together with book/chapter naming and tags it is the entire navigation layer for `biblio/` — the fix for a navigation problem is better grouping or tags, never an extra index, relationship map, or log. Read it and open the books it points to before reading source or investigating from first principles; go to the code only for what no book covers.
 
