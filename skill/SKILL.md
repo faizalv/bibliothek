@@ -29,23 +29,24 @@ Claude Code's `type` split, `[[name]]` links, and `MEMORY.md` format and Codex's
 
 ## Tier 2 — `biblio/` (in the project root)
 
-Four subfolders, each with a distinct job. Default to gitignoring the whole `biblio/` directory — it's the AI-collaboration workspace, not the shipped product — unless the user says otherwise for this project.
+Four subfolders, each with a distinct job. Default to gitignoring the whole `biblio/` directory — it's the AI-collaboration workspace, not the shipped product — unless the user says otherwise.
 
 A gitignored directory is invisible to most search tools by default (`rg --files`, `git ls-files`, agents' own file search), so an empty search is not evidence `biblio/` is missing. List the path directly (`ls biblio/`, or `rg --no-ignore` / `fd -I`) before concluding that.
 
 ### `biblio/scratchpad/`
-Working space, editable by both the user and the model. One subdirectory per task (`biblio/scratchpad/<task-slug>/...`), never a bare file dropped at the root, even for a single file. This is where planning, debugging, and working out the shape of something before it's decided happens, and where a decided task's own build record lives afterward. A handover's Status never carries a plan; the plan lives in the task's `prd.md`.
+Working space, editable by both the user and the model. One subdirectory per task (`biblio/scratchpad/<task-slug>/...`), never a bare file dropped at the root, even for a single file. Everything the work produces lands here, never in a system temp directory a reboot wipes: planning, debugging, shaping an undecided idea, a decided task's build record. A handover's Status never carries a plan; the plan lives in the task's `prd.md`.
 
 A task directory holds whatever files the work calls for, custom ones included. The defaults, with `activities.md` on every task:
 - `prd.md` — work that will be built, edited in place as decisions firm up. Four parts: **Problem** (what is wrong or missing), **Expectation** (what should be true or possible once it's solved), **Objective** (what the work sets out to achieve, and what is out of scope), **Plans** (implementation details: design decisions, then the phases in build order, each a `- [ ]` item flipped to `- [x]` the moment it is done and verified). The marks are the progress record: anyone resuming reads them to know what is done.
 - `debug.md` — chasing a fault: symptom, what's been ruled out, current best theory, rewritten in place, plus the root cause once found.
-- `recon.md` — an investigation with no build: synthesized findings, rewritten in place as understanding firms up, not a log. Graduates into a book chapter once settled, or the task just archives with no chapter if the answer was "not worth pursuing."
+- `recon.md` — an investigation with no build: synthesized findings, rewritten in place as understanding firms up, not a log. Graduates into a book chapter once settled, or the task archives with no chapter if the answer was "not worth pursuing."
 - `notes.md` — an idea not yet confirmed or decided; loose is fine. Once it's decided, the task adds a `prd.md` beside it.
-- `activities.md` — a dated, append-only log of what actually happened: a decision reached, code shipped, a correction made, how a decision was reached. Not a transcript of every tool call. The one place chronological narrative is allowed to live, scoped to this one task.
+- `activities.md` — a dated, append-only log of what actually happened: a decision reached and how, code shipped, a correction made. Not a transcript of every tool call. The one place chronological narrative lives, scoped to this task.
+- `dump/`: raw material such as scripts, downloads, data dumps and command output, however throwaway.
 
 **Pointed at a scratchpad**, read it, say back what you understood rather than treating it as instructions, and continue from its marks. A PRD with no Plans gets them drafted. When a PRD is written or updated, say where it is and give a view, such as whether to split it. If the user asks to just show a plan, that's chat only, no file.
 
-**Offer to split.** When a PRD's Plans hold a sub-thread big enough to be built and tracked on its own, offer the user to split it into its own scratchpad task with its own `prd.md`, whose Problem or Plans point at the parent's section (`biblio/scratchpad/<parent-slug>/prd.md`, section name) instead of restating it. Offer, never split unasked.
+**Offer to split.** When a PRD's Plans hold a sub-thread big enough to be built and tracked on its own, offer the user to split it into its own scratchpad task with its own `prd.md`, whose Problem or Plans point at the parent's section (`biblio/scratchpad/<parent-slug>/prd.md`, section name) instead of restating it.
 
 Not indexed by `toc.md` and not read automatically, but not disposable: once a task closes, its directory, `activities.md` included, moves into `biblio/scratchpad/archive/` as the permanent record, alongside its handover's archived copy (see `biblio/handover/` below).
 
