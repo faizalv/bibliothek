@@ -36,13 +36,12 @@ A gitignored directory is invisible to most search tools by default (`rg --files
 ### `biblio/scratchpad/`
 Working space, editable by both the user and the model. One subdirectory per task (`biblio/scratchpad/<task-slug>/...`), never a bare file dropped at the root, even for a single file. It holds planning, debugging, shaping an undecided idea, a decided task's build record. A handover's Status never carries a plan; the plan lives in the task's `prd.md`.
 
-A task directory holds whatever files the work calls for, custom ones included. The defaults, with `activities.md` on every task:
+A task directory is that task's folder. The names below are reserved for their purpose, with `activities.md` on every task. Any other important file the work needs can be added beside them.
 - `prd.md` — work that will be built, edited in place as decisions firm up. Four parts: **Problem** (what is wrong or missing), **Expectation** (what should be true or possible once it's solved), **Objective** (what the work sets out to achieve, and what is out of scope), **Plans** (implementation details: design decisions, then the phases in build order, each a `- [ ]` item flipped to `- [x]` the moment it is done and verified). The marks are the progress record: anyone resuming reads them to know what is done.
 - `debug.md` — chasing a fault: symptom, what's been ruled out, current best theory, rewritten in place, plus the root cause once found.
 - `recon.md` — an investigation with no build: synthesized findings, rewritten in place as understanding firms up, not a log. Graduates into a book chapter once settled, or the task archives with no chapter if the answer was "not worth pursuing."
 - `notes.md` — an idea not yet confirmed or decided; loose is fine. Once it's decided, the task adds a `prd.md` beside it.
 - `activities.md` — a dated, append-only log of what actually happened: a decision reached and how, code shipped, a correction made. Not a transcript of every tool call. The one place chronological narrative lives, scoped to this task.
-- `dump/`: work expensive to produce, such as a PoC, which a system temp directory loses on reboot. Test builds, logs and probes a command regenerates go there.
 
 **Pointed at a scratchpad**, read it, say back what you understood rather than treating it as instructions, and continue from its marks. A PRD with no Plans gets them drafted. When a PRD is written or updated, say where it is and give a view, such as whether to split it. If the user asks to just show a plan, that's chat only, no file.
 
