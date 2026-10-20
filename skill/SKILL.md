@@ -102,26 +102,26 @@ Once a handover's work is actually implemented, it stops being active — but it
 1. task-slug [tag,tag] -> handover-file-name.md
 ```
 
-Tags follow the same one-word discipline as book tags; `blocked` is a reserved tag for a handover that's mostly done but stalled on a decision or pushback, surfaced here without restating why — that's one hop away, in the handover's own Status. No summary column; that's exactly the drift risk this file exists to avoid. Add a row the moment a handover is created, renumber in place as priority shifts, and drop the row in the same action that archives the handover.
+Tags follow the same rule as book tags; `blocked` is a reserved tag for a handover that's mostly done but stalled on a decision or pushback, surfaced here without restating why — that's one hop away, in the handover's own Status. No summary column; that's exactly the drift risk this file exists to avoid. Add a row the moment a handover is created, renumber in place as priority shifts, and drop the row in the same action that archives the handover.
 
 Retire that task's memory pointer in the same action, not after: delete the `type: project` memory file and its `MEMORY.md` line the moment its handover is archived. Memory is precious, always-loaded space for what's still active, not a historical log of finished work -- the archived handover and a book chapter (see below) are already the closure record, so a leftover pointer there is pure weight with no reader that needs it.
 
 ### `biblio/books/`
 The durable, growing detail — design decisions, domain facts, lore, whatever this project needs remembered precisely and in full — organized as a small library. **Deciding whether a finished piece of work warrants a chapter, and writing it, is on the model, not the user** — a project that's adopted this convention doesn't need to be told to keep its books current any more than it needs to be told to run tests.
 
-- A **book** is a folder: `biblio/books/title_snake_case[date_entry][tags,comma,separated]/`. `date_entry` is the book's creation date, written once, never revised — a book's name never needs editing when only its content changes.
-- A **chapter** is one markdown file inside a book: `title_snake_case[tags,comma,separated].md`. Free-form prose inside (dense is fine — this tier is read on demand, not loaded automatically). A chapter is a frozen snapshot of settled facts and decisions, not a workspace: write it once a task is finished, and touch it again only for a deliberate future rework — never to park a mid-task finding or hypothesis. No deictic/narrative language, no changelog, no dated "X happened, then Y." What's still in progress belongs in the task's `activities.md` instead.
-- **Tags** are exactly one word each, comma-separated, no spaces or hyphens joining concepts into one tag — a compound idea becomes multiple tags instead of one compound tag (an "IPD approval" chapter is tagged `ipd,approval`, not `ipd-approval`). Use the terms this project already uses for the thing (a module name, a faction name, a short domain term) instead of a generic category word. The entire point of a tag is to cut a directory listing or a `grep` down fast, without opening a file — optimize for that, not for taxonomic completeness.
+- A **book** is a folder: `biblio/books/title_snake_case/`. The title is the whole name, so a book's folder never needs renaming when its content or tags change.
+- A **chapter** is one markdown file inside a book: `title_snake_case.md`, named for what it covers. Free-form prose inside (dense is fine — this tier is read on demand, not loaded automatically). A chapter is a frozen snapshot of settled facts and decisions, not a workspace: write it once a task is finished, and touch it again only for a deliberate future rework — never to park a mid-task finding or hypothesis. No deictic/narrative language, no changelog, no dated "X happened, then Y." What's still in progress belongs in the task's `activities.md` instead.
+- **Tags** belong to a book and live only on its `toc.md` line, comma-separated. Each tag is one token, lowercase or camelCase, with no spaces, hyphens or underscores, so a compound idea is one camelCase tag (an "IPD approval" book is tagged `ipdApproval`, not `ipd-approval`). Use the terms this project already uses for the thing (a module name, a faction name, a short domain term) instead of a generic category word. The entire point of a tag is to cut the toc down fast, without opening a book; optimize for that, not for taxonomic completeness.
 - "Last updated" is never encoded anywhere — the filesystem's own mtime already answers that for free, and baking a live-changing field into a name is what forces every edit to also be a rename.
 
-`biblio/books/toc.md` lists every book, one line each: the book's full folder name (as defined above) and no description: the folder name carries the title and tags, and `ls` of the folder shows its chapter names, which say what each covers. The one allowed addition is a single-sentence warning after the tags, for a book that is obsolete or misleading, naming what to read instead.
+`biblio/books/toc.md` lists every book, one line each: the book's folder name followed by its bracketed tags, and no description: `ls` of the folder shows its chapter names, which say what each covers. The one allowed addition is a single-sentence warning after the tags, for a book that is obsolete or misleading, naming what to read instead.
 
 ```
-title_snake_case[date_entry][tag,tag,tag]
-title_snake_case[date_entry][tag,tag,tag] warning: obsolete, read other_book instead.
+title_snake_case [tag,camelTag]
+title_snake_case [tag,camelTag] warning: obsolete, read other_book instead.
 ```
 
-Rewritten in place as a book's content changes, never appended to — no dated lines, no session history; that belongs in a task's `activities.md`. Bracketed tags are the union of tags actually carried by the book's chapters, read off them rather than chosen independently — a mismatch means the toc has drifted and needs regenerating, not re-titling.
+Rewritten in place as a book's content changes, never appended to — no dated lines, no session history; that belongs in a task's `activities.md`. A book's tags are revised on its line when its content shifts.
 
 `toc.md` is small enough that any session can read it regardless of the current task. Together with book/chapter naming and tags it is the entire navigation layer for `biblio/` — the fix for a navigation problem is better grouping or tags, never an extra index, relationship map, or log. Read it and open the books it points to before reading source or investigating from first principles; go to the code only for what no book covers.
 
